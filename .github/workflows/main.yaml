@@ -14,6 +14,9 @@ jobs:
 
       - name: Get KEV
         run: /home/runner/bin/just kev
+      
+      - name: Get Tags
+        run: /home/runner/bin/just tags
 
       - name: Commit and push if it changed
         run: |-
