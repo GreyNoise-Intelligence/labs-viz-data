@@ -1,4 +1,4 @@
-name: Build
+name: Daily Data Jobs
 
 on:
   workflow_dispatch:
