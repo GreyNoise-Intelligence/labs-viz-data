@@ -1,10 +1,24 @@
 name: Build
+
 on: [push, pull_request]
+
 jobs:
+  
   build:
-    runs-on: ubuntu-20.04
+    
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_COMPILE_AND_INSTALL_PACKAGES: never
+
     steps:
+      
       - uses: actions/checkout@master
+        
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
 
       - name: Install dependencies
         run: |
@@ -12,17 +26,21 @@ jobs:
           sudo apt-get install -y curl
           curl -s https://just.systems/install.sh | bash
 
-      - name: Get KEV
-        run: /home/runner/bin/just kev
-      
-      - name: Get Tags
-        run: /home/runner/bin/just tags
+      - name: Install R packages
+        run: install.packages(c("jsonlite", "dplyr"))
+        shell: Rscript {0}
 
-      - name: Commit and push if it changed
-        run: |-
-          git config user.name "Automated"
-          git config user.email "actions@users.noreply.github.com"
-          git add -A
-          timestamp=$(date -u)
-          git commit -m "Update data: ${timestamp}" || exit 0
-          git push
+      # - name: Get KEV
+      #   run: /home/runner/bin/just kev
+      
+      # - name: Get Tags
+      #   run: /home/runner/bin/just tags
+
+      # - name: Commit and push if it changed
+      #   run: |-
+      #     git config user.name "Automated"
+      #     git config user.email "actions@users.noreply.github.com"
+      #     git add -A
+      #     timestamp=$(date -u)
+      #     git commit -m "Update data: ${timestamp}" || exit 0
+      #     git push
