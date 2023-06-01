@@ -13,4 +13,4 @@ jobs:
           curl -s https://just.systems/install.sh | bash
 
       - name: Get KEV
-        run: ${HOME}/just kev
+        run: ${HOME}/bin/just kev
