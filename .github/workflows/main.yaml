@@ -22,25 +22,27 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get update
           sudo apt-get install -y curl
           curl -s https://just.systems/install.sh | bash
 
       - name: Install R packages
-        run: install.packages(c("jsonlite", "dplyr"))
+        run: install.packages(c("jsonlite", "dplyr", "tidyr"))
         shell: Rscript {0}
 
-      # - name: Get KEV
-      #   run: /home/runner/bin/just kev
+      - name: Get KEV
+        run: /home/runner/bin/just kev
       
-      # - name: Get Tags
-      #   run: /home/runner/bin/just tags
+      - name: Get Tags
+        run: /home/runner/bin/just tags
 
-      # - name: Commit and push if it changed
-      #   run: |-
-      #     git config user.name "Automated"
-      #     git config user.email "actions@users.noreply.github.com"
-      #     git add -A
-      #     timestamp=$(date -u)
-      #     git commit -m "Update data: ${timestamp}" || exit 0
-      #     git push
+      - name: Build KEV Tags JSON
+        run: /home/runner/bin/just kev-tags
+
+      - name: Commit and push if it changed
+        run: |-
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          timestamp=$(date -u)
+          git commit -m "Update data: ${timestamp}" || exit 0
+          git push
