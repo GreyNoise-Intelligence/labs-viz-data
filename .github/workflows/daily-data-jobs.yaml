@@ -3,7 +3,7 @@ name: Daily Data Jobs
 on:
   workflow_dispatch:
   schedule:
-    - cron: '27 19 * * *'
+    - cron: '11 19 * * *'
 
 jobs:
   
